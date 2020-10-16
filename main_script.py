@@ -1,5 +1,7 @@
 import numpy as np
+import sys
 
+sys.setrecursionlimit(5000)
 
 # функция призвана удалять те единицы, которые являются частью острова. Проще говоря, удалять все острова целиком.
 # первый аргумент - массив с которым мы работаем, второй и третий - координата в которой мы нашли единицу и вызвали функию
@@ -33,7 +35,7 @@ def delete_island(arr, x, y, z):
     dx = [-1, 0, 1]
     dy = [-1, 0, 1]
     dz = [-1, 0, 1]
-    #    assert arr[x][y][z] == 1
+    assert arr[x][y][z] == 1
 
     arr[x][y][z] = 0
 
@@ -54,8 +56,8 @@ def delete_island(arr, x, y, z):
                         delete_island(arr, x1, y1, z1)
 
 
-ARR_SIZE = 100  # линейный размер матрицы
-NUM_OF_NAPH = 50000  # количество нафталина в ячейках
+ARR_SIZE = 10  # линейный размер матрицы
+NUM_OF_NAPH = 150  # количество нафталина в ячейках
 
 arr_1d = np.zeros((ARR_SIZE * ARR_SIZE * ARR_SIZE), dtype=int)
 arr_1d[0:NUM_OF_NAPH:] = 1
@@ -84,7 +86,8 @@ arr_dict = dict(zip(unique, counts))
 
 K = (NUM_OF_NAPH - arr_dict[1])/NUM_OF_NAPH # коэффициент показывающий какое количество нафталина находится внутри островков
 
+print("Naphthalene concentration - mole(naph)/mole(b-CD) = ", round(NUM_OF_NAPH/ARR_SIZE**3, 4))
 print("Total quantity of naphthalene = ", NUM_OF_NAPH)
 print("Total quantity of single naphthalene = ", arr_dict[1])
-print("Island quantity = {}".format(island_num), "K = {}".format(K),   sep="; ")
+print("Island quantity = {}".format(island_num), "K = {}".format(round(K,4)),   sep="; ")
 
