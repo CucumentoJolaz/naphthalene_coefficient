@@ -3,6 +3,12 @@ import sys
 
 sys.setrecursionlimit(5000)
 
+ARR_SIZE = 150  # линейный размер матрицы
+NUM_OF_NAPH = 1000000  # количество нафталина в ячейках
+MAX_ITER_NUM = 1400
+iter_num = 0
+
+
 # функция призвана удалять те единицы, которые являются частью острова. Проще говоря, удалять все острова целиком.
 # первый аргумент - массив с которым мы работаем, второй и третий - координата в которой мы нашли единицу и вызвали функию
 
@@ -24,7 +30,6 @@ def island_check(arr, x, y, z):
 
                 if (x1 >= 0 and x1 < len(arr) and y1 >= 0 and y1 < len(arr[0]) and z1 >= 0 and z1 < len(arr[0][0])):
                     if arr[x1][y1][z1] == 1:
-
                         # Мы убедились в том, что имеем дело с островом
                         return True
 
@@ -36,6 +41,11 @@ def delete_island(arr, x, y, z):
     dy = [-1, 0, 1]
     dz = [-1, 0, 1]
     assert arr[x][y][z] == 1
+
+    global iter_num #данная конструкция предназначена для подсёта того, какое количества раз в рекурсии вызывается данная функция. Для предотвращения переполнения стека
+    iter_num += 1
+    if iter_num > MAX_ITER_NUM:
+        return 0
 
     arr[x][y][z] = 0
 
@@ -54,10 +64,6 @@ def delete_island(arr, x, y, z):
                         # Мы убедились в том, что имеем дело с островом
                         # arr[x1][y1][z1] = 2
                         delete_island(arr, x1, y1, z1)
-
-
-ARR_SIZE = 10  # линейный размер матрицы
-NUM_OF_NAPH = 150  # количество нафталина в ячейках
 
 arr_1d = np.zeros((ARR_SIZE * ARR_SIZE * ARR_SIZE), dtype=int)
 arr_1d[0:NUM_OF_NAPH:] = 1
@@ -79,15 +85,16 @@ for i in range(ARR_SIZE):
                 if island_check(arr_3d, i, j, k):
                     delete_island(arr_3d, i, j, k)
                     island_num += 1
+                    iter_num = 0
 
 unique, counts = np.unique(arr_3d,
                            return_counts=True)  # подсчитывает количество оставшихся нулей и единиц для дальнейшего использования
 arr_dict = dict(zip(unique, counts))
 
-K = (NUM_OF_NAPH - arr_dict[1])/NUM_OF_NAPH # коэффициент показывающий какое количество нафталина находится внутри островков
+K = (NUM_OF_NAPH - arr_dict[
+    1]) / NUM_OF_NAPH  # коэффициент показывающий какое количество нафталина находится внутри островков
 
-print("Naphthalene concentration - mole(naph)/mole(b-CD) = ", round(NUM_OF_NAPH/ARR_SIZE**3, 4))
+print("Naphthalene concentration - mole(naph)/mole(b-CD) = ", round(NUM_OF_NAPH / ARR_SIZE ** 3, 4))
 print("Total quantity of naphthalene = ", NUM_OF_NAPH)
 print("Total quantity of single naphthalene = ", arr_dict[1])
-print("Island quantity = {}".format(island_num), "K = {}".format(round(K,4)),   sep="; ")
-
+print("Island quantity = {}".format(island_num), "K = {}".format(round(K, 4)), sep="; ")
