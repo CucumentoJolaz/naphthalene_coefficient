@@ -8,9 +8,7 @@ def graph(formula, x_range):
     plt.grid()
     plt.show()
 
-
-
-CELLS_NUM_AROUND = 6
+CELLS_NUM_AROUND = 27
 
 x = np.arange(0,1,0.005)
 
@@ -20,5 +18,8 @@ for i in range(len(x)):
 	y[i] = 1 - (1 - x[i])**CELLS_NUM_AROUND
 
 plt.plot(x, y)
+plt.xlabel(r'Соотношение (моль нафталина)/(моль b-CD)')
+plt.ylabel(r'Коэффициент эффективного нафталина, Кef')
 plt.grid()
+plt.savefig("plot2.png")
 plt.show()

@@ -1,10 +1,10 @@
 import numpy as np
 import sys
 
-sys.setrecursionlimit(5000)
+sys.setrecursionlimit(1500)
 
-ARR_SIZE = 150  # линейный размер матрицы
-NUM_OF_NAPH = 1000000  # количество нафталина в ячейках
+ARR_SIZE = 100  # линейный размер матрицы
+NUM_OF_NAPH = 200000  # количество нафталина в ячейках
 MAX_ITER_NUM = 1400
 iter_num = 0
 
